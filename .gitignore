@@ -1,0 +1,11 @@
+/out
+bin/
+build/
+CMakeSettings.json
+
+# for vscode, rider and vside users
+
+.vscode
+.idea
+.vs
+
