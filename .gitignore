@@ -2,6 +2,7 @@
 bin/
 build/
 CMakeSettings.json
+.cache
 
 # for my nvim setup, vscode, rider and vside users
 
@@ -9,4 +10,3 @@ CMakeSettings.json
 .vscode
 .idea
 .vs
-
