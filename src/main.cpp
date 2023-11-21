@@ -1,27 +1,28 @@
 #include "raylib-cpp.hpp"
+#include "projekt_d.hpp"
 
 int main() {
     int screenWidth = 800;
     int screenHeight = 450;
 
     raylib::Window window(screenWidth, screenHeight, "raylib-cpp - basic window");
-    raylib::Texture logo(RESOURCES_PATH "raylib-logo.png");
 
     SetTargetFPS(60);
 
+    Game game;
+
+    game.Init();
+
     while (!window.ShouldClose())
     {
+        game.Update();
+
         BeginDrawing();
-
+        
         window.ClearBackground(RAYWHITE);
-
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-
-        // Object methods.
-        logo.Draw(
-            screenWidth / 2 - logo.GetWidth() / 2,
-            screenHeight / 2 - logo.GetHeight() / 2);
-
+        game.Render();
+        game.Post_Update();
+        
         EndDrawing();
     }
 

@@ -3,8 +3,9 @@ bin/
 build/
 CMakeSettings.json
 
-# for vscode, rider and vside users
+# for my nvim setup, vscode, rider and vside users
 
+.telescope_ignore.lua
 .vscode
 .idea
 .vs
