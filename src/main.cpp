@@ -1,4 +1,3 @@
-#include "raylib-cpp.hpp"
 #include "projekt_d.hpp"
 
 int main() {

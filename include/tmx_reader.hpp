@@ -6,7 +6,7 @@
 #include <fstream>
 #include <cstdint>
 #include <iostream>
-
+#include "debug.hpp"
 
 class Tmx_Layer_Buffer
 {
@@ -28,8 +28,14 @@ public:
 
     bool Draw(raylib::Vector2 top_left_origin);
 private:
-    bool successfully_loaded;
+    bool successfully_loaded = true;
     bool Is_Valid();
+    
+    bool Parse_Map_Descriptor(std::string line);
 
     std::vector<Tmx_Layer_Buffer> map_layers;
+    unsigned long tmx_width = 0;
+    unsigned long tmx_height = 0;
+    unsigned long tmx_tilewidth = 0;
+    unsigned long tmx_tileheight = 0;
 };
