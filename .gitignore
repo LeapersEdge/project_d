@@ -6,7 +6,6 @@ CMakeSettings.json
 
 # for my nvim setup, vscode, rider and vside users
 
-.telescope_ignore.lua
 .vscode
 .idea
 .vs
