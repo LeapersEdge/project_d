@@ -1,6 +1,8 @@
 #include "game.hpp"
 
 Game::Game()
+    :
+    tmx(RESOURCES_PATH "tilemaps/tmx/grassfield1.tmx")
 {
 }
 

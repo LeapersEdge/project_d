@@ -86,7 +86,7 @@ Tmx_Reader::Tmx_Reader(std::string tmx_path)
     std::string line;
     while (!in.eof())
     {
-        in >> line;
+        std::getline(in, line);
 
         // if the line contains "map version" than it is the map descriptor line and it should be processed
         if (line.find("map version") != std::string::npos)
@@ -104,9 +104,19 @@ Tmx_Reader::Tmx_Reader(std::string tmx_path)
         if (line.find("tileset") != std::string::npos)
         {
             DebugLogInfo("TMX_READER: found tileset descriptor <tileset>");
-           // TODO: TSX class, from this function needs to read file path, and with that file path, from the TSX class it needs to load it, also
-           // after its loaded, it needs to be stored into TSX container class here, along side with the descriptors with from which index the tiles start
-           // (vector with TSXs hasnt been created in the TMX_READER, that needs to be done)
+            // TODO: TSX class, from this function needs to read file path, and with that file path, from the TSX class it needs to load it, also
+            // after its loaded, it needs to be stored into TSX container class here, along side with the descriptors with from which index the tiles start
+            // (vector with TSXs hasnt been created in the TMX_READER, that needs to be done)
+
+            // +8 for "source=\"", +6 for "../../"
+            size_t source_pos = line.find("source=\"") + 8 + 6;
+            size_t firstgid_pos = line.find("firstgid=\"") + 10;
+            std::string line_clone = line;
+            line.erase(0, source_pos);
+            line.erase(line.size() - 3); // removing "/>
+            line_clone.erase(0, firstgid_pos);
+            line_clone.erase(source_pos - 2); // removing " before source
+            tsx_datas.push_back({std::stoul(line_clone), Tsx_Data(RESOURCES_PATH + line)});
         }
 
         // if the line contains "data encoding=\"csv\"", than it is the tmx layer data and it should be processed
@@ -123,7 +133,7 @@ Tmx_Reader::Tmx_Reader(std::string tmx_path)
 bool Tmx_Reader::Draw(raylib::Vector2 origin)
 {
     // check if tmx reader is valid (tmx was succesfully loaded and all files were found)
-    if (!Is_Valid())
+    if (!successfully_loaded)
         return false;
 
     // draw

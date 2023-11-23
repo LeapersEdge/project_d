@@ -1,5 +1,8 @@
 #pragma once
 
+#include "tmx_reader.hpp"
+#include "debug.hpp"
+
 class Game
 {
 public:
@@ -10,5 +13,5 @@ public:
     void Render();
     void Post_Update();
 private:
-
+    Tmx_Reader tmx;
 };

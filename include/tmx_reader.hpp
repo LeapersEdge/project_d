@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <iostream>
 #include "debug.hpp"
+#include "tsx_data.hpp"
+#include <utility>
 
 class Tmx_Layer_Buffer
 {
@@ -27,9 +29,9 @@ public:
     Tmx_Reader(std::string tmx_path);
 
     bool Draw(raylib::Vector2 top_left_origin);
+    bool Is_Valid();
 private:
     bool successfully_loaded = true;
-    bool Is_Valid();
     
     bool Parse_Map_Descriptor(std::string line);
 
@@ -38,4 +40,8 @@ private:
     unsigned long tmx_height = 0;
     unsigned long tmx_tilewidth = 0;
     unsigned long tmx_tileheight = 0;
+
+    // unsigned long is starting ID, tsx_data is tsx_data
+    // starting ID is relative to tmx data so it is stored here and not inside tsx
+    std::vector<std::pair<unsigned long, Tsx_Data>> tsx_datas;
 };

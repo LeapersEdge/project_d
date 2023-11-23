@@ -9,4 +9,5 @@
 
 #include "game.hpp"
 #include "tmx_reader.hpp"
+#include "tsx_data.hpp"
 
