@@ -9,6 +9,7 @@ Game::Game()
 void Game::Init()
 {
 
+    tmx.Draw({0,0});    
 }
 
 void Game::Update()
@@ -18,7 +19,6 @@ void Game::Update()
 
 void Game::Render()
 {
-
 }
 
 void Game::Post_Update()

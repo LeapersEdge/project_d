@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.19.2)
 project(project_d VERSION 0.1)
 set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall")
+set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Wall")
+
 # set a path for third-party dir
 set(THIRD_PARTY "${CMAKE_CURRENT_SOURCE_DIR}/third_party")
 

@@ -3,18 +3,23 @@
 #include <string>
 #include "raylib-cpp.hpp"
 #include "debug.hpp"
+#include <iostream>
+#include <fstream>
 
 class Tsx_Data
 {
 public:
     Tsx_Data(std::string file_path);
 
-    bool Draw_Tile(raylib::Vector2 position, unsigned int x_in_tileset, unsigned int y_in_tilemap);
+    bool Draw_Tile(raylib::Vector2 position, unsigned int relative_tile_ID);
     bool Is_Valid();
 private:
-    bool successfully_loaded;
+    std::string path;
+    bool successfully_loaded = true;
 
     raylib::Texture2D texture;
-    unsigned long tilecount;
-    unsigned long column;
+    unsigned long tilewidth = 0;
+    unsigned long tileheight = 0;
+    unsigned long tilecount = 0;
+    unsigned long columns = 0;
 };

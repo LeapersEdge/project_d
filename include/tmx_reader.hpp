@@ -15,7 +15,7 @@ class Tmx_Layer_Buffer
 public:
     Tmx_Layer_Buffer(std::ifstream& in);
 
-    unsigned long Get_Tile_ID(unsigned int x, unsigned int y); 
+    const std::vector<std::vector<unsigned long>>& Get_Layer_Buffer_Sprite_IDs();
 private:
     // POSSIBLE FAILIURE: max of unsigned long is 4294967295, if tile sprite ID exceeds that limit, it will break
     // POSSIBLE FAILIURE FIX: unsigned long -> unsigned long long (OCCURANCES:tmx_reader.hpp & tmx_reader.cpp NOTE: std::stoul -> std::stoull in Tmx_Layer_Buffer constructor as well)

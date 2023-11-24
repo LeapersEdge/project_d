@@ -1,4 +1,5 @@
 #include "tmx_reader.hpp"
+#include <functional>
 
 //-----------------------------------------------------------------
 // TMX_LAYER_BUFFER
@@ -10,8 +11,6 @@ Tmx_Layer_Buffer::Tmx_Layer_Buffer(std::ifstream& in)
     // we achive filling TMX Layer Buffer by basically parsing CSV to 2D uint32_t table, so this entire constructor will be exactly that
     // end of the CSV is marked by "</data>" (the entire line is exactly just that, there are no extra whitespaces or anything)
     
-    DebugLogInfo("TMX_LAYER_BUFFER: Started constructing");    
-
     std::string line;
     std::getline(in, line);
 
@@ -51,9 +50,10 @@ Tmx_Layer_Buffer::Tmx_Layer_Buffer(std::ifstream& in)
     DebugLogInfo("TMX_LAYER_BUFFER: Finished constructing");
 }
 
-unsigned long Tmx_Layer_Buffer::Get_Tile_ID(unsigned int x, unsigned int y)
+
+const std::vector<std::vector<unsigned long>>& Tmx_Layer_Buffer::Get_Layer_Buffer_Sprite_IDs()
 {
-    return tile_sprite_IDs[y][x];
+    return tile_sprite_IDs;
 }
 
 //-----------------------------------------------------------------
@@ -122,7 +122,6 @@ Tmx_Reader::Tmx_Reader(std::string tmx_path)
         // if the line contains "data encoding=\"csv\"", than it is the tmx layer data and it should be processed
         if (line.find("data encoding=\"csv\"") != std::string::npos)
         {
-            DebugLogInfo("TMX_READER: found tilemap data <data>");
             map_layers.push_back(Tmx_Layer_Buffer(in));            
         }
 
@@ -137,6 +136,37 @@ bool Tmx_Reader::Draw(raylib::Vector2 origin)
         return false;
 
     // draw
+    // 1st, drawing layer by layer, getting all the tile IDs and than searching for them though TSX data to draw the tile
+    raylib::Vector2 pos = origin;
+    unsigned long tile_sprite_ID;
+    bool found_element = false;
+    for (int layer = map_layers.size() - 1; layer >= 0; layer--)
+    { 
+        // going by rows of the layer map
+        const std::vector<std::vector<unsigned long>>& layer_sprite_IDs = map_layers[layer].Get_Layer_Buffer_Sprite_IDs();
+        for (int y = 0; y < layer_sprite_IDs.size(); y++)
+        {
+            // going by each element in row of layer map
+            for (int x = 0; x < layer_sprite_IDs[0].size(); x++)
+            {
+                // getting the row element of layer map, finding to which TSX the element belogs, transforming it to relative index, and finally drawing it than 
+                // OPTIMISE OPTIMIZE: binary search (if very large, also need to test performance bag before that because caching might be screwed)
+                tile_sprite_ID = layer_sprite_IDs[y][x];
+                found_element = false;
+                for (int i = tsx_datas.size() - 1; !found_element && i >= 0; i--)
+                { 
+                    unsigned long index = tsx_datas[i].first;
+                    if (tile_sprite_ID >= index)
+                    {
+                        pos.x = origin.x + (x * tmx_tilewidth);
+                        pos.y = origin.y + (y * tmx_tileheight);
+                        tsx_datas[i].second.Draw_Tile(pos, tile_sprite_ID - index);
+                        found_element = true;
+                    }
+                }
+            }
+        }
+    }
 
     return true;
 }
@@ -192,7 +222,7 @@ bool Tmx_Reader::Parse_Map_Descriptor(std::string line)
             word.erase(0, 12);
             word.erase(word.size() - 1);
             
-            tmx_tilewidth = std::stoul(word);
+            tmx_tileheight = std::stoul(word);
             continue;
         }
 
@@ -200,7 +230,7 @@ bool Tmx_Reader::Parse_Map_Descriptor(std::string line)
         {
             word.erase(0, 7);
             word.erase(word.size() - 1);
-            
+           
             tmx_width = std::stoul(word);
             continue;
         }

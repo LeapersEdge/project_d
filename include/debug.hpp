@@ -63,7 +63,7 @@
         }
 
     private:
-        Debug() {std::ofstream("debug_log.txt", std::ios::trunc);}
+        Debug() {std::ofstream out("debug_log.txt", std::ios::trunc); out << "\n";}
         Debug(const Debug&) = delete;
         Debug& operator=(const Debug&) = delete;
 

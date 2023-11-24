@@ -14,4 +14,5 @@ public:
     void Post_Update();
 private:
     Tmx_Reader tmx;
+    raylib::Texture2D tex;
 };
