@@ -1,5 +1,4 @@
 #include "tmx_reader.hpp"
-#include <functional>
 
 //-----------------------------------------------------------------
 // TMX_LAYER_BUFFER
@@ -140,7 +139,7 @@ bool Tmx_Reader::Draw(raylib::Vector2 origin)
     raylib::Vector2 pos = origin;
     unsigned long tile_sprite_ID;
     bool found_element = false;
-    for (int layer = map_layers.size() - 1; layer >= 0; layer--)
+    for (int layer = 0; layer < map_layers.size(); layer++)
     { 
         // going by rows of the layer map
         const std::vector<std::vector<unsigned long>>& layer_sprite_IDs = map_layers[layer].Get_Layer_Buffer_Sprite_IDs();

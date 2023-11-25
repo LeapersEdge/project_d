@@ -82,9 +82,7 @@ bool Tsx_Data::Draw_Tile(raylib::Vector2 position, unsigned int relative_tile_ID
         return false;
     
     unsigned int pic_start_x = tilewidth * (relative_tile_ID % columns);
-    unsigned int pic_start_y = tileheight * (relative_tile_ID / (tilecount / columns));
-
-    std::cout << pic_start_x << ' ' << pic_start_y << ' ' << path << std::endl;
+    unsigned int pic_start_y = tileheight * (relative_tile_ID / columns);
 
     texture.Draw(raylib::Rectangle(pic_start_x, pic_start_y, tilewidth, tileheight), position);
 
