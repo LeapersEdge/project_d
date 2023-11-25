@@ -1,8 +1,11 @@
 #include "projekt_d.hpp"
 
 int main() {
-    int screenWidth = 800;
-    int screenHeight = 450;
+    int screenWidth = 1280;
+    int screenHeight = 720; 
+    //int screenWidth = GetMonitorWidth(0);
+    //int screenHeight = GetMonitorHeight(0);
+
 
     raylib::Window window(screenWidth, screenHeight, "raylib-cpp - basic window");
 

@@ -22,14 +22,13 @@ Tmx_Layer_Buffer::Tmx_Layer_Buffer(std::ifstream& in)
     {
         std::vector<unsigned long> layer_line;
 
-    
         for (int i = 0; i < line.size(); i++)
         {
             c = line[i];
 
             // if inspecting character is ',' or '\n' than we have the number fully read and need to store it in layer_line
             // string_buffer != "" because there can be a '\n' just after ',' 
-            if ((c == ',' || c == '\n') && string_buffer != "")
+            if (c == ',' && string_buffer != "")
             {
                 layer_line.push_back( std::stoul(string_buffer) );
                 string_buffer = "";
@@ -38,6 +37,12 @@ Tmx_Layer_Buffer::Tmx_Layer_Buffer(std::ifstream& in)
             {
                 string_buffer += c;
             }
+        }
+
+        if (string_buffer != "")
+        {
+            layer_line.push_back( std::stoul(string_buffer) );
+            string_buffer = "";
         }
 
         tile_sprite_IDs.push_back(layer_line);
