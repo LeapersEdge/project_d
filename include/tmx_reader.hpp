@@ -4,8 +4,6 @@
 #include <vector>
 #include "Vector2.hpp"
 #include <fstream>
-#include <cstdint>
-#include <iostream>
 #include "debug.hpp"
 #include "tsx_data.hpp"
 #include <utility>
